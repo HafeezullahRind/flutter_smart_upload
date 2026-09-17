@@ -3,9 +3,24 @@
 A small app that exercises the whole package against an in-process fake
 backend, so it runs with no server at all.
 
+## Running it
+
+From a clone of the repository, the platform folders are already there:
+
 ```sh
 flutter run
 ```
+
+If you got this from pub.dev, the published archive ships only `lib/`,
+`test/` and `pubspec.yaml` — the generated `android/`, `ios/` and `macos/`
+scaffolding is excluded to keep the package small. Recreate it first:
+
+```sh
+flutter create .
+flutter run
+```
+
+Either way, `flutter test` works without any extra setup.
 
 ## What it shows
 

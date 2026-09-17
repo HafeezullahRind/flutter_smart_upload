@@ -413,7 +413,9 @@ lib/
 ## Example app
 
 ```sh
-cd example && flutter run
+cd example
+flutter create .   # only if you got this from pub.dev — see example/README.md
+flutter run
 ```
 
 Single and multiple uploads, live progress with speed and ETA,
