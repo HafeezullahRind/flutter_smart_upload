@@ -1,0 +1,26 @@
+name: flutter_smart_upload
+description: Backend-agnostic, memory-efficient file uploads for Flutter — chunked, resumable, retrying, with pause/resume/cancel, a concurrency-limited queue and pluggable adapters.
+version: 0.1.0
+repository: https://github.com/HafeezullahRind/flutter_smart_upload
+issue_tracker: https://github.com/HafeezullahRind/flutter_smart_upload/issues
+documentation: https://github.com/HafeezullahRind/flutter_smart_upload#readme
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  crypto: ^3.0.3
+  image: ^4.3.0
+  meta: ^1.15.0
+  path: ^1.9.0
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.25.0
+
+topics:
+  - upload
+  - files
+  - chunked
+  - resumable
+  - compression

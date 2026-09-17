@@ -1,0 +1,4 @@
+tags:
+  memory:
+    # Writes and streams a 64 MB file; give it room on a slow CI disk.
+    timeout: 2x
