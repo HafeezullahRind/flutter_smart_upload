@@ -47,6 +47,9 @@ class _UploadDemoPageState extends State<UploadDemoPage> {
   /// Lets the uploader park transfers instead of hammering a dead connection.
   final ManualNetworkMonitor _network = ManualNetworkMonitor();
 
+  /// Kept so the "flaky server" switch can change the failure rate live.
+  final DemoUploadAdapter _adapter = DemoUploadAdapter();
+
   SmartUploader? _uploader;
   StreamSubscription<UploadEvent>? _events;
   final List<UploadTask> _tasks = <UploadTask>[];
@@ -74,7 +77,7 @@ class _UploadDemoPageState extends State<UploadDemoPage> {
 
     final SmartUploader uploader = SmartUploader(
       // Swap this for your own UploadAdapter — see rest_upload_adapter.dart.
-      adapter: DemoUploadAdapter(failureRate: _flaky ? 0.25 : 0.0),
+      adapter: _adapter,
       config: SmartUploadConfig(
         chunkSize: 512 * 1024,
         maxConcurrentUploads: 2,
@@ -283,11 +286,14 @@ class _UploadDemoPageState extends State<UploadDemoPage> {
                   onOfflineChanged: (bool value) =>
                       setState(() => _network.online = !value),
                   onFlakyChanged: (bool value) {
-                    setState(() => _flaky = value);
+                    setState(() {
+                      _flaky = value;
+                      _adapter.failureRate = value ? 0.25 : 0.0;
+                    });
                     _snack(
                       value
                           ? '25% of chunks will now fail — watch the retries'
-                          : 'Failures disabled (applies to new uploads)',
+                          : 'Failures disabled',
                     );
                   },
                   onCompressChanged: (bool value) =>

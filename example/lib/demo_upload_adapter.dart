@@ -18,7 +18,10 @@ class DemoUploadAdapter extends UploadAdapter {
   final int bytesPerSecond;
 
   /// Probability in `0..1` that any given chunk fails with a server error.
-  final double failureRate;
+  ///
+  /// Mutable, so the demo can turn failures on and off while uploads are in
+  /// flight without rebuilding the uploader.
+  double failureRate;
 
   final Random _random = Random();
   final Map<String, Set<int>> _stored = <String, Set<int>>{};
