@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.1
+
+Documentation and example only — no API or behaviour changes to the package.
+
+- README now shows the uploader working: an animated demo plus screenshots of
+  the queue, a paused transfer, an offline transfer, a retry with backoff and
+  completed uploads, all captured from the example app on a device.
+- Screenshots are published to pub.dev through the `screenshots:` field.
+- `tool/screenshots.sh` regenerates every image by driving the example app, so
+  the README cannot drift from what the code does.
+- Example: the "Simulate flaky server" switch now takes effect. It set a flag
+  the adapter never saw, because the adapter was built once in `initState`;
+  `DemoUploadAdapter.failureRate` is now mutable and updated live.
+- Example: `integration_test/` covers the drive-through used for the captures.
+
 ## 0.1.0
 
 First release.

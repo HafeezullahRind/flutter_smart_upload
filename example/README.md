@@ -11,9 +11,10 @@ From a clone of the repository, the platform folders are already there:
 flutter run
 ```
 
-If you got this from pub.dev, the published archive ships only `lib/`,
-`test/` and `pubspec.yaml` — the generated `android/`, `ios/` and `macos/`
-scaffolding is excluded to keep the package small. Recreate it first:
+If you got this from pub.dev, the published archive ships only the Dart
+sources (`lib/`, `test/`, `integration_test/`, `test_driver/`) and
+`pubspec.yaml` — the generated `android/`, `ios/` and `macos/` scaffolding is
+excluded to keep the package small. Recreate it first:
 
 ```sh
 flutter create .
@@ -47,6 +48,19 @@ Either way, `flutter test` works without any extra setup.
 | [`lib/upload_tile.dart`](lib/upload_tile.dart) | Rendering progress, speed and ETA from the task streams |
 | [`lib/rest_upload_adapter.dart`](lib/rest_upload_adapter.dart) | A complete, real adapter for a chunked REST API, written with only `dart:io` — including the HTTP-status-to-error-code mapping that drives retries |
 | [`lib/demo_upload_adapter.dart`](lib/demo_upload_adapter.dart) | The fake backend, with simulated latency and failures |
+
+## Screenshots and the demo GIF
+
+The images in the [package README](../README.md) are captured from this app,
+not mocked up. `integration_test/screenshot_test.dart` taps through each state
+and `integration_test/demo_test.dart` performs the run that gets recorded;
+`../tool/screenshots.sh` runs both on a booted iOS simulator and writes the
+results to `doc/screenshots/`.
+
+```sh
+xcrun simctl boot 'iPhone 17 Pro'
+../tool/screenshots.sh
+```
 
 ## Using your own backend
 

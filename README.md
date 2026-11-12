@@ -5,7 +5,18 @@ Backend-agnostic, memory-efficient file uploads for Flutter.
 Chunked. Resumable. Retrying. Pausable. Queued. Compressed. And it does not
 know — or care — what your server looks like.
 
+[![pub package](https://img.shields.io/pub/v/flutter_smart_upload.svg)](https://pub.dev/packages/flutter_smart_upload)
 [![style: lints](https://img.shields.io/badge/style-lints-blue)](https://pub.dev/packages/lints)
+[![license: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/demo.gif" width="280" alt="Three 24 MB files uploading two at a time, paused mid-flight and resumed">
+</p>
+
+<p align="center">
+  <em>The example app, recorded as it runs: three 24 MB files, two upload<br>
+  slots, paused mid-flight and resumed — against a fake in-process backend.</em>
+</p>
 
 ```dart
 final SmartUploader uploader = SmartUploader(adapter: MyApiUploadAdapter());
@@ -47,6 +58,21 @@ that. Your adapter owns the bytes-on-the-wire.
 | Checksums | MD5, SHA-256, custom — all opt-in |
 | Network awareness | Parks uploads while offline instead of hammering the server |
 | Events | One typed, exhaustively switchable stream |
+
+## What it looks like
+
+Every shot below is the [example app](example/) on an iPhone simulator,
+captured straight from a running build — nothing is mocked up.
+
+| Pick a file | Two at a time | Paused |
+|---|---|---|
+| [![Empty state with the file picker and the compress, offline and flaky-server switches](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/00-start.png)](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/00-start.png) | [![Two files uploading with percentage, speed and ETA, a third queued](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/01-queue.png)](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/01-queue.png) | [![All three transfers paused mid-upload](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/02-paused.png)](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/02-paused.png) |
+| Anything with a path — the package never reads it into memory whole. | `maxConcurrentUploads: 2`, so the third file waits and starts itself when a slot frees. | `pauseAll()` stops the queue. Acknowledged chunks stay acknowledged. |
+
+| Offline | Retrying | Done |
+|---|---|---|
+| [![An upload parked at Waiting for network while the offline switch is on](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/04-offline.png)](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/04-offline.png) | [![The event bar showing Retry #2 after server_error while an upload continues](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/05-retry.png)](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/05-retry.png) | [![Three completed uploads showing their returned URLs](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/03-completed.png)](https://raw.githubusercontent.com/HafeezullahRind/flutter_smart_upload/main/doc/screenshots/03-completed.png) |
+| The transfer parks itself instead of retrying into a dead connection, and continues where it stopped. | 25% of chunks fail on purpose: exponential backoff with jitter, and only the failed chunk is resent. | `UploadResult.url` is whatever your adapter returned. |
 
 ## Install
 
@@ -422,6 +448,17 @@ Single and multiple uploads, live progress with speed and ETA,
 pause/resume/cancel/retry, plus switches to simulate a flaky server and a
 dropped connection — all against an in-process fake backend, so it runs with no
 server at all.
+
+The screenshots and the demo above are generated from it, so they cannot drift
+from what the code actually does:
+
+```sh
+xcrun simctl boot 'iPhone 17 Pro'
+tool/screenshots.sh
+```
+
+That drives [`example/integration_test/screenshot_test.dart`](example/integration_test/screenshot_test.dart)
+through each state, writes the PNGs to `doc/screenshots/`, and records the GIF.
 
 ## Testing your own adapter
 

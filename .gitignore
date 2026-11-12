@@ -6,3 +6,27 @@ doc/api/
 *.iml
 .idea/
 .vscode/
+
+# Full-resolution captures and recordings; tool/screenshots.sh regenerates them.
+doc/screenshots/raw/
+
+# macOS and editor noise.
+.DS_Store
+*.swp
+*.log
+
+# CocoaPods. The macOS Podfile.lock is checked in; the iOS one is not, and
+# `flutter run` regenerates it anyway.
+example/ios/Podfile.lock
+**/Pods/
+**/.symlinks/
+
+# Flutter's generated platform glue for the example app.
+**/Flutter/ephemeral/
+**/Flutter/Generated.xcconfig
+**/Flutter/flutter_export_environment.sh
+.flutter-plugins
+.flutter-plugins-dependencies
+**/android/local.properties
+
+tools

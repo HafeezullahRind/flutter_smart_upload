@@ -11,3 +11,7 @@ example/android/
 example/ios/
 example/macos/
 example/pubspec.lock
+
+# Full-resolution captures and the recording they came from: the README points
+# at the resized copies in doc/screenshots/.
+doc/screenshots/raw/
